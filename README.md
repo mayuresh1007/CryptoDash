@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+/crypto-dashboard
+├── /app                # New App Router directory
+│   ├── /dashboard      # Main dashboard page
+│   │   ├── page.js     # SSR fetch and render data
+│   │   ├── loading.js  # Loading state
+│   ├── layout.js       # Shared layout
+│   ├── page.js         # Landing page (redirects to dashboard)
+│   ├── globals.css     # Global styles
+│   ├── error.js        # Error boundary
+├── /components         # Reusable components
+│   ├── CryptoTable.js  # Table to display crypto data
+│   ├── Chart.js        # Chart visualization
+├── /services           # API functions
+│   ├── cryptoService.js
+├── tailwind.config.js  # Tailwind configuration
+├── postcss.config.js   # PostCSS configuration
+├── package.json        # Dependencies
+└── README.md
