@@ -1,9 +1,10 @@
-import { Geist, Geist_Mono } from "next/font/google";
+// import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import {ThemeProvider} from "../components/ThemeProvider.jsx"
-import { ModeToggle } from "@/components/ThemToggler";
 import NavBar from "@/components/NavBar";
+import { ThemeProvider } from "@/components/ThemeProvider";
+
+
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata = {

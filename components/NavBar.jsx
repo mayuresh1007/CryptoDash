@@ -18,8 +18,8 @@ const NavBar = () => {
 
     
       <div className="hidden md:flex gap-6">
-        <Link href="/" className="text-sm font-medium">
-          Home
+        <Link href="/dashboard" className="text-sm font-medium">
+          Dashboard
         </Link>
         {/* <Link href="/markets" className="text-sm font-medium">
           Markets

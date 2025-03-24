@@ -2,9 +2,12 @@
 module.exports = {
     darkMode: ["class"],
     content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+		"./app/**/*.{js,ts,jsx,tsx,mdx}",
+		"./components/**/*.{js,ts,jsx,tsx,mdx}",
+		"./layouts/**/*.{js,ts,jsx,tsx,mdx}", // Add layouts if any
+		"./lib/**/*.{js,ts,jsx,tsx,mdx}", // If you store utilities/helpers here
+		"./providers/**/*.{js,ts,jsx,tsx,mdx}", // If you use Next.js Providers
+		"./node_modules/@shadcn/ui/dist/**/*.js" // If using shadcn/ui
   ],
   theme: {
   	extend: {
