@@ -1,4 +1,4 @@
-// app/error.js
+
 "use client";
 
 import { useEffect } from "react";
