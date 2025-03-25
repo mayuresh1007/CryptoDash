@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo ,useState} from "react";
+import React, { useMemo, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableHeader,
@@ -18,17 +18,18 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookHeart } from "lucide-react";
 
 const CryptoTable = ({ data }) => {
-    const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredData = useMemo(() => {
-      return data.filter((coin) =>
+  const filteredData = useMemo(() => {
+    return data.filter(
+      (coin) =>
         coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }, [data, searchQuery]);
+    );
+  }, [data, searchQuery]);
   const columns = useMemo(
     () => [
       {
@@ -73,6 +74,30 @@ const CryptoTable = ({ data }) => {
         header: "Total Volume",
         cell: ({ row }) => `$${row.original.total_volume.toLocaleString()}`,
       },
+      {
+        accessorKey: "wishlist",
+        header: "Wishlist",
+        cell: ({ row }) => (
+          //   <button
+          //     onClick={() => {
+          //       // Add your wishlist logic here
+          //       console.log('Added to wishlist:', row.original);
+          //     }}
+          //     className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          //   >
+          //     ♡
+          //   </button>
+          <Button
+          variant="outline"
+            onClick={() => {
+              // Add your wishlist logic here
+              console.log("Added to wishlist:", row.original);
+            }}
+          >
+            <BookHeart />
+          </Button>
+        ),
+      },
     ],
     []
   );
@@ -87,7 +112,7 @@ const CryptoTable = ({ data }) => {
   });
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto ">
       <h2 className="text-2xl font-bold text-orange-500 dark:text-orange-500  mb-4 text-center">
         Cryptocurrency Market
       </h2>
@@ -126,14 +151,20 @@ const CryptoTable = ({ data }) => {
                 <TableRow key={row.id} className="hover:bg-muted transition">
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="py-3 px-4">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="text-center py-4">
+                <TableCell
+                  colSpan={columns.length}
+                  className="text-center py-4"
+                >
                   No Coin found for this query!!!
                 </TableCell>
               </TableRow>
