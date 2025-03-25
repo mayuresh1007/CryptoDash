@@ -7,7 +7,8 @@ import { ModeToggle } from "./ThemToggler";
 import { Coins, Menu, X } from "lucide-react"; // Added Menu and X icons
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { loginUser, fetchUser, logoutUser } from "@/lib/redux/slices/userSlice";
+import { loginUser, registerUser, fetchUser, logoutUser } from "@/lib/redux/slices/userSlice";
+// import { loginUser, registerUser,fetchUser, logoutUser } from "@/lib/redux/slices/userSlice"
 
 const NavBar = () => {
   const { theme } = useTheme();
@@ -15,6 +16,7 @@ const NavBar = () => {
   const { isLoggedIn, profile, loading, error } = useSelector((state) => state.user);
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Mobile menu state
@@ -27,6 +29,14 @@ const NavBar = () => {
     dispatch(loginUser({ email, password })).then((result) => {
       if (result.meta.requestStatus === "fulfilled") {
         setIsLoginOpen(false);
+      }
+    });
+  };
+
+  const handleRegister = () => {
+    dispatch(registerUser({ email, password })).then((result) => {
+      if (result.meta.requestStatus === "fulfilled") {
+        setIsRegisterOpen(false);
       }
     });
   };
@@ -63,7 +73,10 @@ const NavBar = () => {
               <Button variant="outline" onClick={() => dispatch(logoutUser())}>Logout</Button>
             </div>
           ) : (
-            <Button onClick={() => setIsLoginOpen(true)}>Login</Button>
+            <div className="flex gap-4">
+              <Button onClick={() => setIsLoginOpen(true)}>Login</Button>
+              <Button variant="outline" onClick={() => setIsRegisterOpen(true)}>Register</Button>
+            </div>
           )}
         </div>
 
@@ -100,35 +113,57 @@ const NavBar = () => {
                 </Button>
               </div>
             ) : (
-              <Button 
-                onClick={() => {
-                  setIsLoginOpen(true);
-                  setMobileMenuOpen(false);
-                }}
-              >
-                Login
-              </Button>
+              <div className="flex flex-col gap-2">
+                <Button 
+                  onClick={() => {
+                    setIsLoginOpen(true);
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Login
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    setIsRegisterOpen(true);
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Register
+                </Button>
+              </div>
             )}
           </div>
         )}
 
-        {/* Show login button and theme toggle on mobile when menu is closed */}
+        {/* Show login/register buttons and theme toggle on mobile when menu is closed */}
         {!mobileMenuOpen && (
           <div className="md:hidden flex items-center gap-2">
             <ModeToggle />
             {!isLoggedIn && (
-              <Button 
-                size="sm" 
-                onClick={() => setIsLoginOpen(true)}
-                className="text-xs"
-              >
-                Login
-              </Button>
+              <>
+                <Button 
+                  size="sm" 
+                  onClick={() => setIsLoginOpen(true)}
+                  className="text-xs"
+                >
+                  Login
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => setIsRegisterOpen(true)}
+                  className="text-xs"
+                >
+                  Register
+                </Button>
+              </>
             )}
           </div>
         )}
       </nav>
 
+      {/* Login Dialog */}
       <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
         <DialogContent>
           <DialogHeader>
@@ -151,6 +186,35 @@ const NavBar = () => {
             />
             <Button onClick={handleLogin} disabled={loading}>
               {loading ? "Logging in..." : "Login"}
+            </Button>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Register Dialog */}
+      <Dialog open={isRegisterOpen} onOpenChange={setIsRegisterOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Register</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-4">
+            <input 
+              type="text" 
+              placeholder="Email" 
+              className="border p-2 rounded" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+            />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              className="border p-2 rounded" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+            />
+            <Button onClick={handleRegister} disabled={loading}>
+              {loading ? "Registering..." : "Register"}
             </Button>
             {error && <p className="text-red-500 text-sm">{error}</p>}
           </div>

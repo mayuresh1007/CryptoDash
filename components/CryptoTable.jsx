@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; 
 import {
   useReactTable,
   getCoreRowModel,
@@ -20,9 +20,12 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, BookHeart } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { addToWishlist } from "@/lib/redux/slices/userSlice";
 
 const CryptoTable = ({ data }) => {
     const router = useRouter();
+    const dispatch =useDispatch()
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredData = useMemo(() => {
@@ -32,6 +35,12 @@ const CryptoTable = ({ data }) => {
         coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [data, searchQuery]);
+
+  const handleAddToWish =(item)=>{
+    dispatch(addToWishlist(item))
+}
+
+
 
   console.log(data)
   const columns = useMemo(
@@ -128,6 +137,7 @@ const CryptoTable = ({ data }) => {
             onClick={() => {
               // Add your wishlist logic here
               console.log("Added to wishlist:", row.original);
+              handleAddToWish(row.original)
             }}
           >
             <BookHeart />
