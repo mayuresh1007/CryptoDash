@@ -79,7 +79,7 @@ export default function ProfilePage() {
             Logout
           </Button>
         </>
-      ) : <p>Please Login to view profile!!!</p>}
+      ) : <div className="mx-auto">Please Login to view profile!!!</div>}
 
       {/* Login Dialog */}
       <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>

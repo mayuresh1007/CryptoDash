@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   useReactTable,
   getCoreRowModel,
@@ -21,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, BookHeart } from "lucide-react";
 
 const CryptoTable = ({ data }) => {
+    const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredData = useMemo(() => {
@@ -30,6 +32,8 @@ const CryptoTable = ({ data }) => {
         coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [data, searchQuery]);
+
+  console.log(data)
   const columns = useMemo(
     () => [
       {
@@ -64,6 +68,38 @@ const CryptoTable = ({ data }) => {
           </span>
         ),
       },
+      {
+        accessorKey: "price_change_percentage_24h",
+        header: "24H",
+        cell: ({ row }) => (
+            <span className={`font-semibold inline-flex items-center ${row.original.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+            {row.original.price_change_percentage_24h >= 0 ? (
+              <span className="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+                {row.original.price_change_percentage_24h.toFixed(2)}%
+              </span>
+            ) : (
+              <span className="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+                {Math.abs(row.original.price_change_percentage_24h).toFixed(2)}%
+              </span>
+            )}
+          </span>
+        ),
+      },
+    //   {
+    //     accessorKey: "current_price",
+    //     header: "Price (USD)",
+    //     cell: ({ row }) => (
+    //       <span className="text-green-500 font-semibold">
+    //         ${row.original.current_price.toLocaleString()}
+    //       </span>
+    //     ),
+    //   },
       {
         accessorKey: "market_cap",
         header: "Market Cap",
@@ -148,7 +184,11 @@ const CryptoTable = ({ data }) => {
           <TableBody>
             {table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="hover:bg-muted transition">
+                <TableRow key={row.id}className="hover:bg-muted transition cursor-pointer"
+                onClick={() => {
+                  const coinId = row.original.id; // Assuming each row has a unique `id` field
+                  router.push(`/coin/${coinId}`);
+                }}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="py-3 px-4">
                       {flexRender(
