@@ -4,7 +4,8 @@ import axios from "axios";
 export const fetchCryptoData = async () => {
   try {
     const response = await axios.get(
-      "https://api.coingecko.com/api/v3/coins/markets",
+      `${process.env.BASE_URL_COIN}/markets`,
+    //   "https://api.coingecko.com/api/v3/coins/markets",
       {
         params: {
           vs_currency: "usd",
@@ -25,7 +26,8 @@ export const fetchCryptoData = async () => {
 export const fetchCryptoById = async (name) => {
   try {
     const response = await axios.get(
-      `https://api.coingecko.com/api/v3/coins/markets&ids=${name}`,
+      `${process.env.BASE_URL_COIN}/markets&ids=${name}`,
+    //   `https://api.coingecko.com/api/v3/coins/markets&ids=${name}`,
       {
         params: {
           vs_currency: "usd",
@@ -49,7 +51,8 @@ export const fetchCryptoById = async (name) => {
 export const fetchChartById = async (name) => {
   try {
     const response = await axios.get(
-      `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30`,
+      `${process.env.BASE_URL_COIN}/bitcoin/market_chart?vs_currency=usd&days=30`,
+    //   `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30`,
       {
         // params: {
         //   vs_currency: "usd",
