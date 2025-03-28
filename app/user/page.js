@@ -30,11 +30,13 @@ export default function ProfilePage() {
   useEffect(() => {
     dispatch(fetchUser()); // Always fetch user on mount
   }, [dispatch]);
-
+  // console.log("isLoggedIn", isLoggedIn,error);
   // Open login dialog if not logged in
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (isLoggedIn === false) {
       setIsLoginOpen(true);
+    }else{
+      setIsLoginOpen(false);
     }
   }, [isLoggedIn]);
 
@@ -74,16 +76,16 @@ export default function ProfilePage() {
         </div>
       ) : isLoggedIn ? (
         <>
-          <h1 className="text-xl font-semibold">Welcome, {profile?.name}!</h1>
-          <p className="text-gray-600">Email: {profile?.email}</p>
-          <img
+          <h1 className="text-xl font-semibold">Welcome, {profile?.email}!</h1>
+          {/* <p className="text-gray-600">Email: {profile?.email}</p> */}
+          {/* <img
             src={profile?.avatar || "/default-avatar.png"}
             alt="Avatar"
             className="w-16 h-16 rounded-full mt-2"
-          />
+          /> */}
 
           {/* Profile Update Form */}
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <input
               type="text"
               value={name}
@@ -93,56 +95,64 @@ export default function ProfilePage() {
             <Button onClick={handleUpdate} className="mt-2">
               Update Name
             </Button>
-          </div>
+          </div> */}
 
-          <Button
+          {/* <Button
             onClick={() => dispatch(logoutUser())}
-            className="mt-4 bg-red-500"
+            className="mt-4 bg-red-500" 
           >
             Logout
-          </Button>
+          </Button> */}
         </>
       ) : (
         <div className="mx-auto">Please Login to view profile!!!</div>
       )}
-
       {isLoggedIn && (
-        <div className="p-6">
-          <h2 className="text-2xl font-bold text-center mb-4">My Wishlist</h2>
-          {wishlist.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {wishlist.map((coin) => (
-                <div
-                  key={coin.id}
-                  className="border p-4 rounded-lg shadow-md bg-white dark:bg-gray-800"
-                >
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={coin.image}
-                      alt={coin.name}
-                      className="w-12 h-12 object-cover"
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold">{coin.name}</h3>
-                      <p className="text-gray-600 dark:text-gray-300">
-                        Price: ${coin.current_price}
-                      </p>
-                    </div>
+        <div className="p-6 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">
+          💖 My Wishlist
+        </h2>
+      
+        {wishlist.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {wishlist.map((coin) => (
+              <div
+                key={coin.id}
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-5"
+              >
+                <div className="flex items-center gap-4">
+                  <img
+                    src={coin.image}
+                    alt={coin.name}
+                    className="w-14 h-14 object-contain"
+                  />
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                      {coin.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-300">
+                      Price: <span className="font-medium">${coin.current_price}</span>
+                    </p>
                   </div>
-                  <Button
-                    variant="destructive"
-                    className="mt-4 w-full"
-                    onClick={() => dispatch(removeFromWishlist(coin.id))}
-                  >
-                    Remove
-                  </Button>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-center text-gray-500">No coins in wishlist.</p>
-          )}
-        </div>
+      
+                <Button
+                  variant="destructive"
+                  className="mt-6 w-full rounded-lg py-2 text-sm font-medium"
+                  onClick={() => dispatch(removeFromWishlist(coin.id))}
+                >
+                 Remove
+                </Button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500 dark:text-gray-400 text-lg mt-10">
+            No coins in wishlist. Start adding some! 🚀
+          </p>
+        )}
+      </div>
+      
       )}
 
       {/* Login Dialog */}
