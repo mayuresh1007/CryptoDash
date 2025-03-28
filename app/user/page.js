@@ -1,6 +1,8 @@
 "use client";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+
+
 import {
   fetchUser,
   loginUser,
@@ -108,19 +110,19 @@ export default function ProfilePage() {
         <div className="mx-auto">Please Login to view profile!!!</div>
       )}
       {isLoggedIn && (
-        <div className="p-6 max-w-7xl mx-auto">
+        <div className="p-6 mx-auto">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">
           💖 My Wishlist
         </h2>
       
         {wishlist.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {wishlist.map((coin) => (
+            {wishlist.map((coin,i) => (
               <div
-                key={coin.id}
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-5"
+                key={i}
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-3"
               >
-                <div className="flex items-center gap-4">
+                <div className="items-center gap-4">
                   <img
                     src={coin.image}
                     alt={coin.name}

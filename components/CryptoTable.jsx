@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, BookHeart } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { addToWishlist } from "@/lib/redux/slices/userSlice";
+import { addToWishlist, fetchUser } from "@/lib/redux/slices/userSlice";
 
 const CryptoTable = ({ data }) => {
   const router = useRouter();
@@ -44,6 +44,7 @@ const CryptoTable = ({ data }) => {
     try {
       await dispatch(addToWishlist(item));
       console.log("Added to wishlist:", item);
+      await dispatch(fetchUser())
     } catch (err) {
       console.error("Failed to add to wishlist", err);
     }
