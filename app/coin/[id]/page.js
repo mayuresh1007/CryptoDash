@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -25,13 +26,16 @@ ChartJS.register(
   Legend
 );
 
-const CryptoChart = ({ coinId = "bitcoin" }) => {
+const CryptoChart = () => {
   const [chartData, setChartData] = useState(null);
   const [volumeData, setVolumeData] = useState(null);
   const [pieData, setPieData] = useState(null);
   const [days, setDays] = useState(30);
-
+  const params = useParams();
+  const coinId = params?.id ? params.id : "bitcoin";
   useEffect(() => {
+    if (!coinId) return;
+
     const fetchCoinData = async () => {
       try {
         const response = await fetch(
@@ -74,7 +78,7 @@ const CryptoChart = ({ coinId = "bitcoin" }) => {
           labels: ["Buy Orders", "Sell Orders"],
           datasets: [
             {
-              data: [Math.random() * 60 + 20, Math.random() * 40 + 10], // Mocked data
+              data: [Math.random() * 60 + 20, Math.random() * 40 + 10], // Mock data
               backgroundColor: ["#4CAF50", "#F44336"],
             },
           ],
@@ -92,8 +96,7 @@ const CryptoChart = ({ coinId = "bitcoin" }) => {
   return (
     <div className="p-4 border rounded shadow-md space-y-6">
       <h2 className="text-xl font-bold text-center mb-2">
-        <span className="text-orange-400">{coinId.toUpperCase()}</span> Price
-        Chart
+        <span className="text-orange-400">{coinId?.toUpperCase()}</span> Price Chart
       </h2>
 
       <div className="flex justify-center gap-4">
