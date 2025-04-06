@@ -2,7 +2,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 
-
 import {
   fetchUser,
   loginUser,
@@ -22,6 +21,7 @@ export default function ProfilePage() {
     (state) => state.user
   );
   const dispatch = useDispatch();
+  console.log("wishlist", wishlist);
 
   const [name, setName] = useState(profile?.name || "");
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -37,7 +37,7 @@ export default function ProfilePage() {
   useEffect(() => {
     if (isLoggedIn === false) {
       setIsLoginOpen(true);
-    }else{
+    } else {
       setIsLoginOpen(false);
     }
   }, [isLoggedIn]);
@@ -111,50 +111,54 @@ export default function ProfilePage() {
       )}
       {isLoggedIn && (
         <div className="p-6 mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">
-          💖 My Wishlist
-        </h2>
-      
-        {wishlist.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {wishlist.map((coin,i) => (
-              <div
-                key={i}
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-3"
-              >
-                <div className="items-center gap-4">
-                  <img
-                    src={coin.image}
-                    alt={coin.name}
-                    className="w-14 h-14 object-contain"
-                  />
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      {coin.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-300">
-                      Price: <span className="font-medium">${coin.current_price}</span>
-                    </p>
-                  </div>
-                </div>
-      
-                <Button
-                  variant="destructive"
-                  className="mt-6 w-full rounded-lg py-2 text-sm font-medium"
-                  onClick={() => dispatch(removeFromWishlist(coin.id))}
+          <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">
+            💖 My Wishlist
+          </h2>
+
+          {wishlist.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {wishlist.map((coin, i) => (
+                <div
+                  key={i}
+                  className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-3"
                 >
-                 Remove
-                </Button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-gray-500 dark:text-gray-400 text-lg mt-10">
-            No coins in wishlist. Start adding some! 🚀
-          </p>
-        )}
-      </div>
-      
+                  <div className="items-center gap-4">
+                    <img
+                      src={coin.image}
+                      alt={coin.name}
+                      className="w-14 h-14 object-contain"
+                    />
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                        {coin.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-300">
+                        Price:{" "}
+                        <span className="font-medium">
+                          ${coin.current_price}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  {/* {console.log('coin.id',coin.id)} */}
+                  <Button
+                    variant="destructive"
+                    className="mt-6 w-full rounded-lg py-2 text-sm font-medium"
+                    onClick={() =>
+                      dispatch(removeFromWishlist({ id: coin.id }))
+                    }
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500 dark:text-gray-400 text-lg mt-10">
+              No coins in wishlist. Start adding some! 🚀
+            </p>
+          )}
+        </div>
       )}
 
       {/* Login Dialog */}
